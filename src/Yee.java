@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,76 +9,40 @@ import java.util.regex.Pattern;
  */
 public class Yee {
 
-	public static void main(String args[]){
-		String input = "yeeyee";
-		int i = 0;
-		System.out.println(stripYees(input));
-		
-		while(true){
-			if(isYee(input)){
-				break;
-			} else{
-				input = stripYees(input);
-				input = swapY(input);
-				i++;
+	private int swapCount;
+	private String input;
+	
+	/**
+	 * Constructor
+	 * @param input
+	 */
+	public Yee(String input){
+		this.swapCount = 0;
+		this.input = input;
+	}
+	
+	/**
+	 * Get the count of swap
+	 * @return the count of swap
+	 */
+	public int getSwapCount() {
+		return swapCount;
+	}
+
+	/**
+	 * Calculate the swap count
+	 */
+	public void calSwapCount() {
+		int currentTarget = 0;
+		// get all indices of y
+		for(int i = 0; i < this.input.length(); i++){
+			if(this.input.charAt(i) == 'y'){
+				if(i != currentTarget){
+					this.swapCount += Math.abs(i - currentTarget);
+				}
+				currentTarget += 3;
 			}
 		}
-		
-		System.out.println(i);
-		
 	}
-	
-	/**
-	 * Check if a string is (yee)+ by regular expression
-	 * @param input	input string
-	 * @return	yes if it is (yee)+
-	 */
-	public static boolean isYee(String input){
-		Pattern pattern = Pattern.compile("^(yee)+");
-		Matcher matcher = pattern.matcher(input);
-		boolean b = matcher.matches();
-		return b;
-	}
-	
-	/**
-	 * strip the leading (yee)+
-	 * @param input
-	 * @return
-	 */
-	public static String stripYees(String input){
-		Pattern pattern = Pattern.compile("^(yee)+(.*)");
-		Matcher matcher = pattern.matcher(input);
-		if (matcher.find()){
-		    return matcher.group(2);
-		}
-		return input;
-	}
-	
-	/**
-	 * Swap the y logically
-	 * @param input	
-	 * @return
-	 */
-	public static String swapY(String input){
-		
-		/* if the first character is equal to y
-		 *	swap the ye after
-		 * else
-		 *	the first y swap with previous(should be e)
-		 */
-		StringBuilder sb = new StringBuilder(input);
-		int firstY = input.indexOf("y");
-		if(input.startsWith("y")){
-			int ye = input.indexOf("ye", firstY + 1);
-			
-			sb.setCharAt(ye, 'e');
-			sb.setCharAt(ye + 1, 'y');
-		} else {
-			
-			sb.setCharAt(firstY, 'e');
-			sb.setCharAt(firstY - 1, 'y');
-		}
-		
-		return sb.toString();
-	}
+
 }
