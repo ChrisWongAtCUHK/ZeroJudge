@@ -1,3 +1,4 @@
+package yee;
 
 public class YeeDemo {
 
@@ -8,7 +9,6 @@ public class YeeDemo {
 		y.calSwapCount();
 		
 		System.out.println(y.getSwapCount());
-		
 	}
 
 }
